@@ -360,17 +360,28 @@ def get_statistics(
     admin: User = Depends(get_admin_user),
     db: Session = Depends(get_db),
 ):
-    base = db.query(AttendanceRecord).filter(
-        AttendanceRecord.record_date >= date_from,
-        AttendanceRecord.record_date <= date_to,
-    )
+    row = db.execute(
+        text(
+            """
+            SELECT
+                COUNT(*) AS total_records,
+                SUM(CASE WHEN record_type = 'checkin' THEN 1 ELSE 0 END) AS total_checkins,
+                SUM(CASE WHEN record_type = 'checkout' THEN 1 ELSE 0 END) AS total_checkouts,
+                SUM(CASE WHEN is_late = 1 THEN 1 ELSE 0 END) AS late_count,
+                SUM(CASE WHEN is_early_leave = 1 THEN 1 ELSE 0 END) AS early_leave_count
+            FROM attendance_records
+            WHERE record_date >= :date_from AND record_date <= :date_to
+            """
+        ),
+        {"date_from": date_from, "date_to": date_to},
+    ).first()
 
     return AttendanceStatistics(
-        total_records=base.count(),
-        total_checkins=base.filter(AttendanceRecord.record_type == "checkin").count(),
-        total_checkouts=base.filter(AttendanceRecord.record_type == "checkout").count(),
-        late_count=base.filter(AttendanceRecord.is_late == True).count(),
-        early_leave_count=base.filter(AttendanceRecord.is_early_leave == True).count(),
+        total_records=row[0] or 0,
+        total_checkins=row[1] or 0,
+        total_checkouts=row[2] or 0,
+        late_count=row[3] or 0,
+        early_leave_count=row[4] or 0,
         date_range_start=date_from,
         date_range_end=date_to,
     )
