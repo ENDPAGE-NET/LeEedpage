@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#005FB7",
+              "on-primary": "#ffffff",
+              "primary-container": "#d6e3ff",
+              "on-primary-container": "#001b3c",
+              "secondary": "#565f71",
+              "on-secondary": "#ffffff",
+              "secondary-container": "#dae2f9",
+              "on-secondary-container": "#131c2c",
+              "surface": "#fdf8fd",
+              "on-surface": "#1b1b1f",
+              "surface-variant": "#e1e2ec",
+              "on-surface-variant": "#44474f",
+              "outline": "#74777f",
+              "background": "#fdf8fd",
+              "on-background": "#1b1b1f"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "1rem",
+              "lg": "1.5rem",
+              "xl": "2rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        .glass-effect {
+            backdrop-filter: blur(16px);
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen flex items-center justify-center overflow-hidden font-body">
+<!-- Background Gradient (Entropy Axis Style: Layered & Immersive) -->
+<div class="fixed inset-0 bg-gradient-to-tr from-primary/5 via-surface to-secondary-container/10 -z-10"></div>
+<div class="fixed top-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px] -z-10"></div>
+<div class="fixed bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-secondary-container/20 rounded-full blur-[100px] -z-10"></div>
+<main class="w-full max-w-md px-8 py-12 flex flex-col items-center relative z-10">
+<!-- Logo Branding Section -->
+<div class="mb-12 flex flex-col items-center text-center">
+<!-- Fingerprint Icon Circle (Entropy Axis: Clean, High contrast) -->
+<div class="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-[0_12px_40px_rgba(0,95,183,0.12)] mb-6 ring-1 ring-primary/5">
+<span class="material-symbols-outlined text-primary text-5xl" data-icon="fingerprint">fingerprint</span>
+</div>
+<h1 class="font-headline text-4xl font-extrabold text-primary tracking-tight mb-2">
+                熵析云枢
+            </h1>
+<p class="text-on-surface-variant/70 text-sm font-semibold tracking-[0.2em] uppercase">
+                企业考勤管理系统
+            </p>
+</div>
+<!-- Login Form Container -->
+<div class="w-full space-y-6">
+<!-- Username Field -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-primary transition-colors text-xl" data-icon="person">person</span>
+</div>
+<input class="block w-full pl-14 pr-6 py-5 bg-white/60 border border-outline/10 rounded-full text-on-surface placeholder:text-outline/60 focus:ring-4 focus:ring-primary/10 focus:border-primary/30 focus:bg-white transition-all duration-300 outline-none" placeholder="用户名" type="text"/>
+</div>
+<!-- Password Field -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-primary transition-colors text-xl" data-icon="lock">lock</span>
+</div>
+<input class="block w-full pl-14 pr-6 py-5 bg-white/60 border border-outline/10 rounded-full text-on-surface placeholder:text-outline/60 focus:ring-4 focus:ring-primary/10 focus:border-primary/30 focus:bg-white transition-all duration-300 outline-none" placeholder="请输入密码" type="password"/>
+</div>
+<!-- Forgot Password -->
+<div class="flex justify-end px-4">
+<button class="text-sm font-bold text-primary hover:opacity-80 transition-opacity">忘记密码？</button>
+</div>
+<!-- Login Button (Entropy Axis: Pill-shaped, Primary Blue) -->
+<div class="pt-4">
+<button class="w-full bg-primary text-white font-bold py-5 rounded-full shadow-[0_16px_32px_rgba(0,95,183,0.3)] hover:shadow-[0_20px_40px_rgba(0,95,183,0.4)] active:scale-[0.97] transition-all duration-300 font-headline text-lg">
+                    登录
+                </button>
+</div>
+</div>
+<!-- Footer / Additional Options -->
+<div class="mt-16 text-center space-y-6">
+<div class="flex items-center justify-center space-x-4">
+<div class="h-[1px] w-12 bg-outline/20"></div>
+<span class="text-[10px] text-outline font-bold uppercase tracking-widest">其他登录方式</span>
+<div class="h-[1px] w-12 bg-outline/20"></div>
+</div>
+<div class="flex justify-center space-x-6">
+<button class="w-14 h-14 rounded-full bg-white shadow-sm border border-outline/5 flex items-center justify-center text-on-surface-variant hover:bg-primary/5 hover:text-primary transition-all duration-300">
+<span class="material-symbols-outlined text-2xl" data-icon="qr_code_scanner">qr_code_scanner</span>
+</button>
+<button class="w-14 h-14 rounded-full bg-white shadow-sm border border-outline/5 flex items-center justify-center text-on-surface-variant hover:bg-primary/5 hover:text-primary transition-all duration-300">
+<span class="material-symbols-outlined text-2xl" data-icon="face">face</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Version Text -->
+<div class="fixed bottom-8 w-full text-center">
+<p class="text-[10px] text-outline/60 uppercase tracking-[0.3em] font-extrabold">
+            Version 4.2.0 • Secure Infrastructure
+        </p>
+</div>
+</body></html>

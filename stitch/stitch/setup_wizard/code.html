@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>账户设置 - 熵析云枢</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "on-tertiary-container": "#ffd1bb",
+              "on-surface": "#1c1b1f",
+              "surface-container-lowest": "#ffffff",
+              "surface-tint": "#005eb4",
+              "inverse-primary": "#a8c8ff",
+              "surface-variant": "#e5e1e7",
+              "on-secondary-container": "#475c7f",
+              "error": "#ba1a1a",
+              "background": "#fdf8fd",
+              "outline-variant": "#c1c6d4",
+              "on-primary-fixed": "#001b3c",
+              "inverse-surface": "#313034",
+              "on-tertiary-fixed": "#331100",
+              "on-secondary-fixed-variant": "#324769",
+              "tertiary-fixed-dim": "#ffb68f",
+              "secondary-fixed": "#d6e3ff",
+              "outline": "#727783",
+              "primary-container": "#005fb7",
+              "on-secondary": "#ffffff",
+              "surface-container": "#f1ecf2",
+              "surface-container-low": "#f7f2f8",
+              "primary-fixed-dim": "#a8c8ff",
+              "tertiary-fixed": "#ffdbca",
+              "surface-bright": "#fdf8fd",
+              "tertiary": "#7a3300",
+              "on-primary-fixed-variant": "#00468a",
+              "on-background": "#1c1b1f",
+              "on-primary-container": "#c9dbff",
+              "on-secondary-fixed": "#011b3b",
+              "secondary": "#4a5f82",
+              "on-tertiary-fixed-variant": "#773200",
+              "surface-container-high": "#ebe7ec",
+              "surface": "#fdf8fd",
+              "on-tertiary": "#ffffff",
+              "tertiary-container": "#9f4500",
+              "primary-fixed": "#d6e3ff",
+              "error-container": "#ffdad6",
+              "secondary-container": "#c0d5fe",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e5e1e7",
+              "inverse-on-surface": "#f4eff5",
+              "primary": "#00478c",
+              "on-surface-variant": "#414752",
+              "surface-dim": "#ddd9de",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b2c7f0"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-effect {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body min-h-screen selection:bg-primary/20">
+<!-- Top AppBar (JSON Context: TopAppBar small_center_aligned) -->
+<header class="fixed top-0 w-full z-50 bg-[#fdf8fd]/80 backdrop-blur-xl flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+</div>
+<h1 class="text-primary font-headline font-bold tracking-tight text-lg">账户设置</h1>
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<img alt="User" data-alt="professional corporate headshot of a young asian male professional in a clean minimalist studio with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMzOygGRP3-f2mI8HrrHQDt277w_VqNv-BvFmjifH2kKHF49n9AetJTR4dmeCnV7YkPRc16CjS0gcqP0UUDCBsIa5CrBSXJaoVgKAt-W4Kwhwh4jQcDgPzfnMRtrqK2q1EzDpnTonW490ApY4vtxjw8DxpVNSEuQot9vYRJHaLEkkJddQRIo0Xc-7IRBdKCQWHs7gVYixM3Z8jziCGLHYO68CaJX3E4UwzeWOVlyEdOQyR83Nw-xNd2LfPqAFqGnNzfnPyNYnscF0"/>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-md mx-auto">
+<!-- Introduction Header -->
+<section class="mb-10 text-center">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-3xl bg-primary-container/10 mb-6">
+<span class="material-symbols-outlined text-3xl text-primary" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+</div>
+<h2 class="text-2xl font-headline font-extrabold text-primary mb-2">完成账户初始化</h2>
+<p class="text-on-surface-variant text-sm leading-relaxed">为了确保您的考勤安全，请按照以下步骤完成设置。</p>
+</section>
+<!-- Setup Wizard Steps -->
+<div class="space-y-4">
+<!-- Step 1 Card -->
+<div class="group relative bg-surface-container-lowest p-5 rounded-2xl flex items-center justify-between transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-[0.98]">
+<div class="flex items-center gap-5">
+<!-- Step Number Badge -->
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center border-2 border-primary/10">
+<span class="text-primary font-bold">1</span>
+</div>
+</div>
+<!-- Info -->
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-0.5">
+<span class="material-symbols-outlined text-primary text-[20px]">lock</span>
+<span class="font-headline font-bold text-on-surface">修改密码</span>
+</div>
+<span class="text-xs text-on-surface-variant">保障您的账户访问安全</span>
+</div>
+</div>
+<!-- Status Icon -->
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-bold tracking-widest text-outline uppercase px-2 py-0.5 rounded-full bg-surface-container-low">待处理</span>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</div>
+</div>
+<!-- Connecting Line (Visual Decor) -->
+<div class="ml-10 h-4 w-0.5 bg-gradient-to-b from-primary/20 to-transparent"></div>
+<!-- Step 2 Card -->
+<div class="group relative bg-surface-container-lowest p-5 rounded-2xl flex items-center justify-between transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-[0.98]">
+<div class="flex items-center gap-5">
+<!-- Step Number Badge -->
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center border-2 border-primary/10">
+<span class="text-primary font-bold">2</span>
+</div>
+</div>
+<!-- Info -->
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-0.5">
+<span class="material-symbols-outlined text-primary text-[20px]">face</span>
+<span class="font-headline font-bold text-on-surface">注册人脸</span>
+</div>
+<span class="text-xs text-on-surface-variant">用于日常上下班打卡验证</span>
+</div>
+</div>
+<!-- Status Icon -->
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-bold tracking-widest text-outline uppercase px-2 py-0.5 rounded-full bg-surface-container-low">待处理</span>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Progress Indicator -->
+<div class="mt-12 flex flex-col items-center gap-3">
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="w-0 h-full bg-primary transition-all duration-700"></div>
+</div>
+<span class="text-xs font-medium text-outline">当前进度 0%</span>
+</div>
+</main>
+<!-- Bottom Actions Container -->
+<footer class="fixed bottom-0 left-0 w-full p-8 bg-gradient-to-t from-background via-background to-transparent flex justify-center">
+<div class="w-full max-w-md">
+<button class="w-full py-4 bg-outline/20 text-outline font-headline font-bold rounded-full cursor-not-allowed transition-all duration-200" disabled="">
+                激活账户
+            </button>
+<p class="text-center text-[11px] mt-4 text-on-surface-variant/60">
+                * 请完成以上所有步骤以激活您的企业账号
+            </p>
+</div>
+</footer>
+<!-- Decorative Elements -->
+<div class="fixed top-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] -z-10 rounded-full"></div>
+<div class="fixed bottom-[-5%] left-[-5%] w-[30%] h-[30%] bg-secondary-container/10 blur-[100px] -z-10 rounded-full"></div>
+</body></html>

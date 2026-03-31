@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f7f2f8",
+              "on-secondary": "#ffffff",
+              "secondary-fixed": "#d6e3ff",
+              "on-primary": "#ffffff",
+              "error-container": "#ffdad6",
+              "tertiary-fixed-dim": "#ffb68f",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-container": "#c9dbff",
+              "on-surface": "#1c1b1f",
+              "surface-dim": "#ddd9de",
+              "on-tertiary-fixed": "#331100",
+              "on-background": "#1c1b1f",
+              "secondary-container": "#c0d5fe",
+              "surface-container-high": "#ebe7ec",
+              "inverse-on-surface": "#f4eff5",
+              "surface-bright": "#fdf8fd",
+              "on-primary-fixed": "#001b3c",
+              "outline-variant": "#c1c6d4",
+              "on-secondary-container": "#475c7f",
+              "surface-tint": "#005eb4",
+              "surface-container": "#f1ecf2",
+              "on-surface-variant": "#414752",
+              "background": "#fdf8fd",
+              "surface": "#fdf8fd",
+              "secondary-fixed-dim": "#b2c7f0",
+              "primary-container": "#005fb7",
+              "tertiary-fixed": "#ffdbca",
+              "primary": "#00478c",
+              "surface-variant": "#e5e1e7",
+              "on-error-container": "#93000a",
+              "surface-container-highest": "#e5e1e7",
+              "on-tertiary-fixed-variant": "#773200",
+              "primary-fixed-dim": "#a8c8ff",
+              "inverse-surface": "#313034",
+              "tertiary-container": "#9f4500",
+              "tertiary": "#7a3300",
+              "on-error": "#ffffff",
+              "outline": "#727783",
+              "on-secondary-fixed": "#011b3b",
+              "on-tertiary": "#ffffff",
+              "inverse-primary": "#a8c8ff",
+              "error": "#ba1a1a",
+              "on-secondary-fixed-variant": "#324769",
+              "on-tertiary-container": "#ffd1bb",
+              "secondary": "#4a5f82",
+              "on-primary-fixed-variant": "#00468a",
+              "primary-fixed": "#d6e3ff"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-slate-950/80 backdrop-blur-xl flex justify-between items-center px-6 h-16 transition-all duration-200 ease-in-out">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-all">
+<span class="material-symbols-outlined text-blue-900 dark:text-blue-100">menu</span>
+</button>
+<h1 class="text-xl font-black text-blue-900 dark:text-blue-100 font-manrope tracking-tight">我的</h1>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="Close-up portrait of a professional man in a clean studio setting with soft lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiVmCfwwbtFqtuqWABVYwIbMtanJm3hHnNKr6HOTGlicYORe_4ApFB_Y6yEjFXXN8oFFIgNjWJVKk-f0JKMrmOml4LeOy63j6AYiPXLBHglw-B9zy-FVH--sMlpYyBqgMfWEuyTDj85VG7Y_x50NKvrW2sOkk3gta6-TGwsaFjZ8r0kANiD8xU890XuFpLoi67M0uvc17DCBUy3c2UGi-_NLsrsOl9t9pdliqV_Rzx1sWgq2Bj3WLJ_PeGJgBELS77M0DlRFQHjxU"/>
+</div>
+</header>
+<main class="pt-24 px-6 space-y-6 max-w-2xl mx-auto">
+<!-- Header: User Profile Card -->
+<section class="relative overflow-hidden bg-gradient-to-br from-primary to-primary-container p-8 rounded-xl shadow-none text-white flex flex-col items-center text-center">
+<div class="absolute top-0 right-0 -mr-12 -mt-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+<div class="relative w-24 h-24 rounded-full border-4 border-white/20 p-1 mb-4">
+<img alt="李明远" class="w-full h-full object-cover rounded-full" data-alt="Professional headshot of a smiling man with a confident expression, clear skin, and sharp features in soft studio light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnbqxR6oCxoHRwlAXd9KZOYdBBI4DSOMhZi3JBQWOS5Ml0yNbd4eRtArS-t_BJBLlGEigNUKgZZk6HWW6-Ah-gmPAuUi5sZFKJ5Dpm7beAeOcZbgkyPgBmGzDERE7zENqE3deycSs3VCSFbu_yC9XF97HvntiY7GL5U9lyeIRTkTb_SBkDZSqCd_6SiIIjwNmHG0qJXCHOIx0-HLyXl1NsTaXc2GOT57o6-46ptaf1xYyQqzrrO8vIm6xOpdmW_5TRMuNUaXzRmYA"/>
+</div>
+<h2 class="text-2xl font-bold tracking-tight mb-1">李明远</h2>
+<div class="flex items-center gap-2 opacity-90 text-sm font-medium">
+<span>技术架构部</span>
+<span class="w-1 h-1 bg-white/40 rounded-full"></span>
+<span>工号: 88291</span>
+</div>
+</section>
+<!-- Personal Info Section -->
+<section class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/15">
+<h3 class="text-sm font-bold text-primary mb-4 uppercase tracking-wider">个人基本信息</h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center group">
+<span class="text-on-surface-variant font-medium">职位</span>
+<span class="text-on-surface font-semibold">架构师</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant font-medium">入职日期</span>
+<span class="text-on-surface font-semibold">2021-06-15</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant font-medium">手机号</span>
+<span class="text-on-surface font-semibold tracking-widest">138****8888</span>
+</div>
+</div>
+</section>
+<!-- Functional Menu List -->
+<section class="bg-surface-container-low rounded-xl overflow-hidden p-2 space-y-1">
+<a class="flex items-center justify-between p-4 bg-surface-container-lowest hover:translate-x-1 transition-transform duration-300 rounded-xl" href="#">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-50 text-blue-700">
+<span class="material-symbols-outlined">person</span>
+</div>
+<span class="font-semibold text-on-surface">个人资料</span>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-4 bg-surface-container-lowest hover:translate-x-1 transition-transform duration-300 rounded-xl" href="#">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-50 text-blue-700">
+<span class="material-symbols-outlined">fact_check</span>
+</div>
+<span class="font-semibold text-on-surface">我的申请</span>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-4 bg-surface-container-lowest hover:translate-x-1 transition-transform duration-300 rounded-xl" href="#">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-50 text-blue-700">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<span class="font-semibold text-on-surface">考勤统计</span>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-4 bg-surface-container-lowest hover:translate-x-1 transition-transform duration-300 rounded-xl" href="#">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-50 text-blue-700">
+<span class="material-symbols-outlined">notifications</span>
+</div>
+<span class="font-semibold text-on-surface">消息通知</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-error text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">3</span>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+</a>
+<a class="flex items-center justify-between p-4 bg-surface-container-lowest hover:translate-x-1 transition-transform duration-300 rounded-xl" href="#">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-50 text-blue-700">
+<span class="material-symbols-outlined">settings</span>
+</div>
+<span class="font-semibold text-on-surface">系统设置</span>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</a>
+</section>
+<!-- Logout -->
+<div class="pt-4">
+<button class="w-full py-4 px-6 border border-error/20 text-error font-bold rounded-xl hover:bg-error-container/20 active:scale-95 transition-all duration-200">
+                退出登录
+            </button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg flex justify-around items-center px-4 pb-8 pt-3 rounded-t-3xl shadow-[0_-4px_20px_rgba(0,0,0,0.04)]">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-1 active:scale-95 transition-transform hover:scale-105" href="#">
+<span class="material-symbols-outlined">fingerprint</span>
+<span class="font-manrope text-[11px] font-semibold tracking-wide mt-1">打卡</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-1 active:scale-95 transition-transform hover:scale-105" href="#">
+<span class="material-symbols-outlined">event_note</span>
+<span class="font-manrope text-[11px] font-semibold tracking-wide mt-1">记录</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-1 active:scale-95 transition-transform hover:scale-105" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+<span class="font-manrope text-[11px] font-semibold tracking-wide mt-1">审批</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200 rounded-full px-5 py-1 active:scale-95 transition-transform hover:scale-105" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-manrope text-[11px] font-semibold tracking-wide mt-1">我的</span>
+</a>
+</nav>
+</body></html>

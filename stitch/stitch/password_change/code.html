@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "on-tertiary-container": "#ffd1bb",
+              "on-surface": "#1c1b1f",
+              "surface-container-lowest": "#ffffff",
+              "surface-tint": "#005eb4",
+              "inverse-primary": "#a8c8ff",
+              "surface-variant": "#e5e1e7",
+              "on-secondary-container": "#475c7f",
+              "error": "#ba1a1a",
+              "background": "#fdf8fd",
+              "outline-variant": "#c1c6d4",
+              "on-primary-fixed": "#001b3c",
+              "inverse-surface": "#313034",
+              "on-tertiary-fixed": "#331100",
+              "on-secondary-fixed-variant": "#324769",
+              "tertiary-fixed-dim": "#ffb68f",
+              "secondary-fixed": "#d6e3ff",
+              "outline": "#727783",
+              "primary-container": "#005fb7",
+              "on-secondary": "#ffffff",
+              "surface-container": "#f1ecf2",
+              "surface-container-low": "#f7f2f8",
+              "primary-fixed-dim": "#a8c8ff",
+              "tertiary-fixed": "#ffdbca",
+              "surface-bright": "#fdf8fd",
+              "tertiary": "#7a3300",
+              "on-primary-fixed-variant": "#00468a",
+              "on-background": "#1c1b1f",
+              "on-primary-container": "#c9dbff",
+              "on-secondary-fixed": "#011b3b",
+              "secondary": "#4a5f82",
+              "on-tertiary-fixed-variant": "#773200",
+              "surface-container-high": "#ebe7ec",
+              "surface": "#fdf8fd",
+              "on-tertiary": "#ffffff",
+              "tertiary-container": "#9f4500",
+              "primary-fixed": "#d6e3ff",
+              "error-container": "#ffdad6",
+              "secondary-container": "#c0d5fe",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e5e1e7",
+              "inverse-on-surface": "#f4eff5",
+              "primary": "#00478c",
+              "on-surface-variant": "#414752",
+              "surface-dim": "#ddd9de",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b2c7f0"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #fdf8fd;
+      }
+      .font-headline {
+        font-family: 'Manrope', sans-serif;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#fdf8fd]/80 backdrop-blur-xl flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 active:scale-95 duration-200 text-[#00478c]">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="text-xl font-black tracking-tight text-[#00478c] font-headline">修改密码</h1>
+</div>
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a professional man in a modern office setting with soft natural lighting and a confident expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBefimJ-9R2z8FJBRJG5CDG8A2d73y9QQWUh3_Z2f_JD5dYP95al3ZTKWTJoBStYlXDtmrmTCTglLVbXI0DpW2W8yvEJoEPouzfhb4cbFN6NQxGzqHpoOEgHxgAbZtpNXxOk59UZQDqyS7BGAksC2ws6d6PLs-QxiOTD5uaLV6JHd9erzxVU6pBwHL1ezSUy_x6SYDswDtjALfoB3joLwoN-yHGrDDNidFEupNZY4iCeMfK1TNdHry2uHn9O2Su-bZoGBGsNJSMAPE"/>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-12 px-6 max-w-md mx-auto">
+<!-- Hero Section / Context -->
+<div class="mb-10 text-center">
+<div class="inline-flex items-center justify-center w-20 h-20 bg-primary-container/10 rounded-full mb-6">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="lock_reset" style="font-variation-settings: 'FILL' 0;">lock_reset</span>
+</div>
+<h2 class="text-2xl font-bold font-headline text-on-surface mb-2">更新您的安全凭据</h2>
+<p class="text-on-surface-variant text-sm px-8">为了保护您的账户安全，请定期更换密码。新密码需包含字母与数字。</p>
+</div>
+<!-- Password Form -->
+<form class="space-y-6">
+<!-- Current Password -->
+<div class="group">
+<label class="block text-sm font-semibold text-on-surface-variant mb-2 ml-1" for="current-password">当前密码</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline" data-icon="lock_open">lock_open</span>
+<input class="w-full pl-12 pr-12 py-4 bg-surface-container-low border-none rounded-2xl focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-outline/50 transition-all duration-300" id="current-password" placeholder="请输入当前密码" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- New Password -->
+<div class="group">
+<label class="block text-sm font-semibold text-on-surface-variant mb-2 ml-1" for="new-password">新密码</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline" data-icon="key">key</span>
+<input class="w-full pl-12 pr-12 py-4 bg-surface-container-low border-none rounded-2xl focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-outline/50 transition-all duration-300" id="new-password" placeholder="请输入新密码" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+<!-- Strength Indicator (Visual Aid) -->
+<div class="mt-3 flex gap-1 px-1">
+<div class="h-1 flex-1 rounded-full bg-primary/20"></div>
+<div class="h-1 flex-1 rounded-full bg-surface-variant"></div>
+<div class="h-1 flex-1 rounded-full bg-surface-variant"></div>
+<div class="h-1 flex-1 rounded-full bg-surface-variant"></div>
+</div>
+</div>
+<!-- Confirm Password -->
+<div class="group">
+<label class="block text-sm font-semibold text-on-surface-variant mb-2 ml-1" for="confirm-password">确认新密码</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline" data-icon="verified_user">verified_user</span>
+<input class="w-full pl-12 pr-12 py-4 bg-surface-container-low border-none rounded-2xl focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-outline/50 transition-all duration-300" id="confirm-password" placeholder="请再次输入新密码" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Submit Button -->
+<div class="pt-8">
+<button class="w-full bg-primary text-white font-headline font-bold py-4 rounded-full shadow-lg shadow-primary/20 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2" type="submit">
+                    提交修改
+                    <span class="material-symbols-outlined text-lg" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</form>
+<!-- Security Tips (Asymmetric Bento-ish element) -->
+<div class="mt-12 p-6 bg-surface-container-lowest rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-outline-variant/10">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary" data-icon="security" style="font-variation-settings: 'FILL' 1;">security</span>
+<h3 class="font-headline font-bold text-on-surface">安全提示</h3>
+</div>
+<ul class="space-y-3 text-sm text-on-surface-variant">
+<li class="flex gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-1.5 flex-shrink-0"></span>
+<span>避免使用生日、电话号码等易猜密码。</span>
+</li>
+<li class="flex gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-1.5 flex-shrink-0"></span>
+<span>不要在多个平台重复使用相同的密码。</span>
+</li>
+<li class="flex gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-1.5 flex-shrink-0"></span>
+<span>修改成功后，系统将自动登出其他受信任设备。</span>
+</li>
+</ul>
+</div>
+</main>
+<!-- Success Feedback Overlay (Hidden by default) -->
+<div class="hidden fixed inset-0 z-[60] bg-black/20 backdrop-blur-sm flex items-center justify-center px-6">
+<div class="bg-surface-container-lowest p-8 rounded-[2rem] w-full max-w-sm text-center shadow-2xl">
+<div class="w-16 h-16 bg-[#4CAF50]/10 text-[#4CAF50] rounded-full flex items-center justify-center mx-auto mb-4">
+<span class="material-symbols-outlined text-4xl" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h3 class="text-xl font-headline font-bold mb-2">密码修改成功</h3>
+<p class="text-on-surface-variant text-sm mb-6">您的账户安全级别已提升。请使用新密码重新登录。</p>
+<button class="w-full bg-primary text-white font-bold py-3 rounded-full active:scale-95 transition-transform">
+                返回登录
+            </button>
+</div>
+</div>
+</body></html>
