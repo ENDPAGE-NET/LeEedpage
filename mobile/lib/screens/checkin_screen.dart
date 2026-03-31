@@ -23,8 +23,10 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
   bool _loading = false;
   bool _statusLoading = true;
   bool _locationLoading = false;
+
   final ImagePicker _picker = ImagePicker();
   final LocationService _locationService = LocationService();
+
   Timer? _clockTimer;
   String _currentTime = '';
   String _currentDate = '';
@@ -36,6 +38,7 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
   bool? _isLate;
   bool? _isEarlyLeave;
   bool _isWorkDay = true;
+
   Map<String, dynamic>? _ruleInfo;
   LocationResult? _currentLocation;
   String? _locationError;
@@ -64,7 +67,8 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
     if (!mounted) {
       return;
     }
-    final weekdays = ['一', '二', '三', '四', '五', '六', '日'];
+
+    const weekdays = ['一', '二', '三', '四', '五', '六', '日'];
     setState(() {
       _currentTime =
           '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
@@ -80,6 +84,7 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
       if (!mounted) {
         return;
       }
+
       setState(() {
         _checkinDone = status['checkin']['done'] == true;
         _checkoutDone = status['checkout']['done'] == true;
@@ -91,7 +96,7 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
         _ruleInfo = (status['rule'] as Map?)?.cast<String, dynamic>();
       });
     } catch (_) {
-      // Ignore status refresh errors on the home screen.
+      // Keep the home screen resilient; the user can pull to refresh.
     } finally {
       if (mounted) {
         setState(() => _statusLoading = false);
@@ -110,6 +115,7 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
       if (!mounted) {
         return;
       }
+
       setState(() {
         _currentLocation = location;
         _locationError = null;
@@ -119,10 +125,12 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
       if (!mounted) {
         return;
       }
+
       setState(() {
         _currentLocation = null;
         _locationError = message;
       });
+
       if (showError) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(message), backgroundColor: Colors.red),
@@ -142,10 +150,12 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
         return detail;
       }
     }
+
     if (error is LocationServiceError) {
       return error.message;
     }
-    final message = error.toString();
+
+    final message = error.toString().toLowerCase();
     if (message.contains('connection')) {
       return '网络连接失败';
     }
@@ -179,12 +189,14 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
 
     setState(() => _loading = true);
     try {
-      final bool locationRequired = _ruleInfo?['location_required'] == true;
-      LocationResult? location = _currentLocation;
+      final locationRequired = _ruleInfo?['location_required'] == true;
+      var location = _currentLocation;
+
       if (locationRequired && location == null) {
         await _refreshLocation(showError: true);
         location = _currentLocation;
       }
+
       if (locationRequired && location == null) {
         throw LocationServiceError('当前位置获取失败，请确认定位权限和浏览器/系统定位开关后重试');
       }
@@ -236,6 +248,7 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
     if (iso == null) {
       return '未打卡';
     }
+
     try {
       final dt = DateTime.parse(iso).toLocal();
       return '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
@@ -252,6 +265,7 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
         backgroundImage: NetworkImage(resolvedUrl),
       );
     }
+
     return CircleAvatar(
       radius: 22,
       backgroundColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
@@ -263,6 +277,78 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
           fontSize: 18,
         ),
       ),
+    );
+  }
+
+  Widget _buildActionArea(ThemeData theme) {
+    if (_loading) {
+      return const SizedBox(
+        height: 160,
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: _checkinDone ? null : () => _doAttendance('checkin'),
+          child: Container(
+            width: 160,
+            height: 160,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: _checkinDone
+                  ? LinearGradient(colors: [Colors.grey.shade300, Colors.grey.shade400])
+                  : const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFF2196F3), Color(0xFF1565C0)],
+                    ),
+              boxShadow: _checkinDone
+                  ? []
+                  : [
+                      BoxShadow(
+                        color: Colors.blue.withValues(alpha: 0.3),
+                        blurRadius: 20,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(_checkinDone ? Icons.check : Icons.fingerprint, size: 44, color: Colors.white),
+                const SizedBox(height: 6),
+                Text(
+                  _checkinDone ? '已签到' : (kIsWeb ? '上传签到图' : '签到'),
+                  style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        TextButton.icon(
+          onPressed: (!_checkinDone || _checkoutDone) ? null : () => _doAttendance('checkout'),
+          icon: Icon(_checkoutDone ? Icons.check_circle : Icons.logout, size: 18),
+          label: Text(_checkoutDone ? '已签退' : (kIsWeb ? '上传签退图' : '申请签退')),
+          style: TextButton.styleFrom(
+            foregroundColor: _checkoutDone ? Colors.grey : theme.colorScheme.primary,
+          ),
+        ),
+        if (_checkinDone && _checkoutDone)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.check_circle, size: 14, color: Colors.green.shade700),
+                const SizedBox(width: 4),
+                Text('今日打卡已完成', style: TextStyle(color: Colors.green.shade700, fontSize: 12)),
+              ],
+            ),
+          ),
+      ],
     );
   }
 
@@ -340,7 +426,10 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
                       ),
                       const Divider(height: 24),
                       _statusLoading
-                          ? const SizedBox(height: 60, child: Center(child: CircularProgressIndicator(strokeWidth: 2)))
+                          ? const SizedBox(
+                              height: 60,
+                              child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                            )
                           : Row(
                               children: [
                                 Expanded(
@@ -392,12 +481,14 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
                     border: Border.all(color: Colors.amber.shade200),
                   ),
                   child: Text(
-                    '当前为 Web 测试模式，可上传图片模拟人脸采集；位置通过浏览器原生定位获取，小地图使用开源底图展示。',
+                    '当前为 Web 测试模式，可上传图片模拟人脸采集；位置通过浏览器原生定位获取，小地图用于测试当前点与规则点关系。',
                     style: TextStyle(color: Colors.amber.shade800, fontSize: 12),
                     textAlign: TextAlign.center,
                   ),
                 ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
+              _buildActionArea(theme),
+              const SizedBox(height: 20),
               LocationMapCard(
                 currentLocation: _currentLocation,
                 loading: _locationLoading,
@@ -405,69 +496,6 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
                 ruleInfo: _ruleInfo,
                 onRefresh: () => unawaited(_refreshLocation(showError: true)),
               ),
-              const SizedBox(height: 20),
-              if (_loading)
-                const SizedBox(height: 160, child: Center(child: CircularProgressIndicator()))
-              else ...[
-                GestureDetector(
-                  onTap: _checkinDone ? null : () => _doAttendance('checkin'),
-                  child: Container(
-                    width: 160,
-                    height: 160,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: _checkinDone
-                          ? LinearGradient(colors: [Colors.grey.shade300, Colors.grey.shade400])
-                          : const LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [Color(0xFF2196F3), Color(0xFF1565C0)],
-                            ),
-                      boxShadow: _checkinDone
-                          ? []
-                          : [
-                              BoxShadow(
-                                color: Colors.blue.withValues(alpha: 0.3),
-                                blurRadius: 20,
-                                offset: const Offset(0, 8),
-                              ),
-                            ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(_checkinDone ? Icons.check : Icons.fingerprint, size: 44, color: Colors.white),
-                        const SizedBox(height: 6),
-                        Text(
-                          _checkinDone ? '已签到' : (kIsWeb ? '上传签到图' : '签到'),
-                          style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                TextButton.icon(
-                  onPressed: (!_checkinDone || _checkoutDone) ? null : () => _doAttendance('checkout'),
-                  icon: Icon(_checkoutDone ? Icons.check_circle : Icons.logout, size: 18),
-                  label: Text(_checkoutDone ? '已签退' : (kIsWeb ? '上传签退图' : '申请签退')),
-                  style: TextButton.styleFrom(
-                    foregroundColor: _checkoutDone ? Colors.grey : theme.colorScheme.primary,
-                  ),
-                ),
-                if (_checkinDone && _checkoutDone)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.check_circle, size: 14, color: Colors.green.shade700),
-                        const SizedBox(width: 4),
-                        Text('今日打卡已完成', style: TextStyle(color: Colors.green.shade700, fontSize: 12)),
-                      ],
-                    ),
-                  ),
-              ],
               if (_ruleInfo != null && _ruleInfo!['has_rule'] == true) ...[
                 const SizedBox(height: 24),
                 Card(
@@ -483,7 +511,11 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
                             const SizedBox(width: 6),
                             Text(
                               '今日考勤规则',
-                              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: Colors.grey.shade700),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
+                                color: Colors.grey.shade700,
+                              ),
                             ),
                           ],
                         ),

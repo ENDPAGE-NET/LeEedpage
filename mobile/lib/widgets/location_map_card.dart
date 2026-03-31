@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../config/app_config.dart';
 import '../services/location_service.dart';
-import 'osm_embed_stub.dart' if (dart.library.html) 'osm_embed_web.dart';
 
 class LocationMapCard extends StatelessWidget {
   final LocationResult? currentLocation;
@@ -98,44 +97,50 @@ class LocationMapCard extends StatelessWidget {
   }
 
   Widget _buildMapPreview({
-    required BuildContext context,
     required double currentLatitude,
     required double currentLongitude,
-    required double centerLatitude,
-    required double centerLongitude,
   }) {
     if (kIsWeb) {
-      return OsmEmbedView(
+      return _WebMiniMap(
         currentLatitude: currentLatitude,
         currentLongitude: currentLongitude,
         targetLatitude: _targetLatitude,
         targetLongitude: _targetLongitude,
+        radiusMeters: _radiusMeters,
       );
     }
 
-    final staticMapUrl = AppConfig.buildStaticMapUrl(
-      centerLatitude: centerLatitude,
-      centerLongitude: centerLongitude,
-      currentLatitude: currentLatitude,
-      currentLongitude: currentLongitude,
-      targetLatitude: _targetLatitude,
-      targetLongitude: _targetLongitude,
-    );
+    final centerLatitude = _targetLatitude == null
+        ? currentLatitude
+        : (currentLatitude + _targetLatitude!) / 2;
+    final centerLongitude = _targetLongitude == null
+        ? currentLongitude
+        : (currentLongitude + _targetLongitude!) / 2;
 
-    return Image.network(
-      staticMapUrl,
-      fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) {
-        return Container(
-          color: Colors.grey.shade100,
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: const Text(
-            '地图预览加载失败，请使用下方按钮打开系统地图查看位置',
-            textAlign: TextAlign.center,
-          ),
-        );
-      },
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(14),
+      child: Image.network(
+        AppConfig.buildStaticMapUrl(
+          centerLatitude: centerLatitude,
+          centerLongitude: centerLongitude,
+          currentLatitude: currentLatitude,
+          currentLongitude: currentLongitude,
+          targetLatitude: _targetLatitude,
+          targetLongitude: _targetLongitude,
+        ),
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            color: Colors.grey.shade100,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: const Text(
+              '地图预览加载失败，请使用下方按钮打开系统地图查看位置',
+              textAlign: TextAlign.center,
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -146,17 +151,6 @@ class LocationMapCard extends StatelessWidget {
     final distance = _calculateDistanceMeters();
     final hasTarget = _targetLatitude != null && _targetLongitude != null;
     final inRange = distance != null && _radiusMeters != null && distance <= _radiusMeters!;
-
-    final centerLatitude = current == null
-        ? _targetLatitude
-        : hasTarget
-            ? (current.latitude + _targetLatitude!) / 2
-            : current.latitude;
-    final centerLongitude = current == null
-        ? _targetLongitude
-        : hasTarget
-            ? (current.longitude + _targetLongitude!) / 2
-            : current.longitude;
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -171,7 +165,7 @@ class LocationMapCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 const Expanded(
                   child: Text(
-                    '当前位置',
+                    '位置与小地图',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                   ),
                 ),
@@ -211,6 +205,23 @@ class LocationMapCard extends StatelessWidget {
                 child: const Text('正在等待当前位置...', style: TextStyle(fontSize: 12)),
               )
             else ...[
+              Text(
+                kIsWeb ? '测试小地图' : '位置预览',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey.shade700,
+                ),
+              ),
+              const SizedBox(height: 10),
+              AspectRatio(
+                aspectRatio: 2.1,
+                child: _buildMapPreview(
+                  currentLatitude: current.latitude,
+                  currentLongitude: current.longitude,
+                ),
+              ),
+              const SizedBox(height: 12),
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
@@ -233,21 +244,6 @@ class LocationMapCard extends StatelessWidget {
                     ),
                 ],
               ),
-              const SizedBox(height: 12),
-              if (centerLatitude != null && centerLongitude != null)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(14),
-                  child: AspectRatio(
-                    aspectRatio: 2.1,
-                    child: _buildMapPreview(
-                      context: context,
-                      currentLatitude: current.latitude,
-                      currentLongitude: current.longitude,
-                      centerLatitude: centerLatitude,
-                      centerLongitude: centerLongitude,
-                    ),
-                  ),
-                ),
               const SizedBox(height: 12),
               Wrap(
                 spacing: 8,
@@ -354,5 +350,246 @@ class _InfoChip extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _WebMiniMap extends StatelessWidget {
+  final double currentLatitude;
+  final double currentLongitude;
+  final double? targetLatitude;
+  final double? targetLongitude;
+  final double? radiusMeters;
+
+  const _WebMiniMap({
+    required this.currentLatitude,
+    required this.currentLongitude,
+    required this.targetLatitude,
+    required this.targetLongitude,
+    required this.radiusMeters,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFD6DFEB)),
+        gradient: const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFFE9F4E6), Color(0xFFF8FBFF)],
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(14),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: CustomPaint(
+                painter: _WebMiniMapPainter(
+                  currentLatitude: currentLatitude,
+                  currentLongitude: currentLongitude,
+                  targetLatitude: targetLatitude,
+                  targetLongitude: targetLongitude,
+                ),
+              ),
+            ),
+            Positioned(
+              right: 12,
+              top: 12,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.92),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        '测试小地图',
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '蓝点: 当前位置',
+                        style: TextStyle(fontSize: 11, color: Colors.blue.shade700),
+                      ),
+                      if (targetLatitude != null && targetLongitude != null)
+                        Text(
+                          '橙点: 规则地点${radiusMeters == null ? '' : ' · ${radiusMeters!.toStringAsFixed(0)}m'}',
+                          style: TextStyle(fontSize: 11, color: Colors.orange.shade800),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _WebMiniMapPainter extends CustomPainter {
+  final double currentLatitude;
+  final double currentLongitude;
+  final double? targetLatitude;
+  final double? targetLongitude;
+
+  const _WebMiniMapPainter({
+    required this.currentLatitude,
+    required this.currentLongitude,
+    required this.targetLatitude,
+    required this.targetLongitude,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    _drawLandBlocks(canvas, size);
+    _drawRoads(canvas, size);
+    _drawCompass(canvas);
+
+    final current = Offset(size.width * 0.42, size.height * 0.55);
+    _drawMarker(
+      canvas,
+      current,
+      const Color(0xFF1677FF),
+      '当前位置',
+      const Color(0xFF0F5FD6),
+    );
+
+    if (targetLatitude == null || targetLongitude == null) {
+      return;
+    }
+
+    final latDiff = targetLatitude! - currentLatitude;
+    final lonDiff = targetLongitude! - currentLongitude;
+    const scale = 80000.0;
+    final rawDx = lonDiff * scale;
+    final rawDy = -latDiff * scale;
+    final clampedDx = rawDx.clamp(-size.width * 0.24, size.width * 0.24);
+    final clampedDy = rawDy.clamp(-size.height * 0.24, size.height * 0.24);
+    final target = Offset(current.dx + clampedDx, current.dy + clampedDy);
+
+    final guidePaint = Paint()
+      ..color = const Color(0xFF94A3B8)
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+    canvas.drawLine(current, target, guidePaint);
+
+    _drawMarker(
+      canvas,
+      target,
+      const Color(0xFFFF9F1A),
+      '规则地点',
+      const Color(0xFFB85D00),
+    );
+  }
+
+  void _drawLandBlocks(Canvas canvas, Size size) {
+    final blockPaint = Paint()..color = const Color(0xFFDDEAD7);
+    final blocks = [
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(size.width * 0.06, size.height * 0.12, size.width * 0.26, size.height * 0.18),
+        const Radius.circular(18),
+      ),
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(size.width * 0.68, size.height * 0.18, size.width * 0.18, size.height * 0.13),
+        const Radius.circular(14),
+      ),
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(size.width * 0.12, size.height * 0.72, size.width * 0.22, size.height * 0.12),
+        const Radius.circular(14),
+      ),
+    ];
+
+    for (final block in blocks) {
+      canvas.drawRRect(block, blockPaint);
+    }
+  }
+
+  void _drawRoads(Canvas canvas, Size size) {
+    final roadPaint = Paint()
+      ..color = Colors.white
+      ..strokeWidth = 18
+      ..strokeCap = StrokeCap.round;
+    final roadBorder = Paint()
+      ..color = const Color(0xFFCAD4E4)
+      ..strokeWidth = 20
+      ..strokeCap = StrokeCap.round;
+
+    final roads = [
+      [Offset(size.width * 0.08, size.height * 0.34), Offset(size.width * 0.92, size.height * 0.34)],
+      [Offset(size.width * 0.18, size.height * 0.1), Offset(size.width * 0.18, size.height * 0.9)],
+      [Offset(size.width * 0.48, size.height * 0.16), Offset(size.width * 0.82, size.height * 0.78)],
+    ];
+
+    for (final road in roads) {
+      canvas.drawLine(road[0], road[1], roadBorder);
+      canvas.drawLine(road[0], road[1], roadPaint);
+    }
+  }
+
+  void _drawCompass(Canvas canvas) {
+    final textPainter = TextPainter(
+      text: const TextSpan(
+        text: 'N',
+        style: TextStyle(
+          color: Color(0xFF334155),
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    textPainter.paint(canvas, const Offset(14, 10));
+  }
+
+  void _drawMarker(Canvas canvas, Offset center, Color color, String label, Color textColor) {
+    final haloPaint = Paint()..color = color.withValues(alpha: 0.14);
+    canvas.drawCircle(center, 18, haloPaint);
+
+    final shadowPaint = Paint()..color = Colors.black.withValues(alpha: 0.08);
+    canvas.drawCircle(center + const Offset(0, 3), 12, shadowPaint);
+
+    final circlePaint = Paint()..color = color;
+    canvas.drawCircle(center, 12, circlePaint);
+
+    final borderPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3;
+    canvas.drawCircle(center, 12, borderPaint);
+
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: label,
+        style: TextStyle(
+          color: textColor,
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: 90);
+
+    textPainter.paint(
+      canvas,
+      Offset(
+        center.dx - textPainter.width / 2,
+        center.dy + 16,
+      ),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _WebMiniMapPainter oldDelegate) {
+    return currentLatitude != oldDelegate.currentLatitude ||
+        currentLongitude != oldDelegate.currentLongitude ||
+        targetLatitude != oldDelegate.targetLatitude ||
+        targetLongitude != oldDelegate.targetLongitude;
   }
 }
