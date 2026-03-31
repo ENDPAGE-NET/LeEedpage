@@ -64,3 +64,5 @@ mobile/web_plugin_registrant.dart
 # Local SDK / archives
 Androidsdk/
 *.zip
+stitch_login/
+stitch/
